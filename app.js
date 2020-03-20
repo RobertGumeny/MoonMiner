@@ -1,8 +1,10 @@
-// ESTABLISH GLOBAL VARIABLES - Money, resources, and modifiers
+// NOTE ESTABLISH GLOBAL VARIABLES 
+// Money, resources, and modifiers
 
 let money = 0
 
-// RESOURCES - All resources should have a name, count, value, unlocked boolean, and unlock price
+// NOTE RESOURCES
+// All resources should have a name, count, value, unlocked boolean, and unlock price
 
 let resource = {
   moonDust: {
@@ -16,7 +18,7 @@ let resource = {
     count: 0,
     value: 5,
     unlocked: false,
-    unlockPrice: 20,
+    unlockPrice: 100,
   },
   moonIron: {
     name: 'Iron',
@@ -34,11 +36,10 @@ let resource = {
   }
 }
 
-// UPGRADE ITEMS - Some of these will increase the amount harvested per click, others will begin to passively harvest resources.
+// NOTE UPGRADE ITEMS - Increase amount of resources harvested per click
 // Price will increase with each subsequent upgrade
 
 let upgrades = {
-  clickUpgrades: {
     drills: {
       name: "Drills",
       price: 50,
@@ -50,9 +51,7 @@ let upgrades = {
       price: 250,
       level: 0,
       modifier: 5
-    }
-  },
-  passiveUpgrades: {
+    },
     rovers: {
       name: "Rovers",
       price: 500,
@@ -65,14 +64,14 @@ let upgrades = {
       level: 0,
       modifier: 20
     }
-  }
 }
 
-// NOTE 
+// NOTE HARVEST ON CLICK
 // Basic function enabling user to harvest a resource (Dust, Rocks, Iron, Gems)
+
 function mine(resource){
-  for (const key in upgrades.clickUpgrades) {
-    var newCount = (upgrades.clickUpgrades[key].level * upgrades.clickUpgrades[key].modifier)
+  for (const key in upgrades) {
+    var newCount = (upgrades[key].level * upgrades[key].modifier)
       if (resource.unlocked == true){
       resource.count += newCount
     }else {
@@ -82,7 +81,7 @@ function mine(resource){
   drawCounters()
 }
 
-// NOTE 
+// NOTE SELL RESOURCES
 // Enable user to sell their resources for money
 function sellResources(){
   for (const key in resource) {
@@ -92,7 +91,7 @@ function sellResources(){
   drawCounters()
 }
 
-// NOTE 
+// NOTE DRAW COUNTS TO PAGE
 // Draw count totals to each counter on page (resources and cash)
 function drawCounters(){
   document.getElementById("moon-dust-counter").innerText = resource.moonDust.count.toString()
@@ -100,14 +99,14 @@ function drawCounters(){
   document.getElementById("moon-iron-counter").innerText = resource.moonIron.count.toString()
   document.getElementById("moon-gems-counter").innerText = resource.moonGems.count.toString()
   document.getElementById("money-counter").innerText = money.toString()
-  document.getElementById("drill-level").innerText = upgrades.clickUpgrades.drills.level.toString()
-  document.getElementById("cart-level").innerText = upgrades.clickUpgrades.carts.level.toString()
-  document.getElementById("rover-level").innerText = upgrades.passiveUpgrades.rovers.level.toString()
-  document.getElementById("harvester-level").innerText = upgrades.passiveUpgrades.harvesters.level.toString()
+  document.getElementById("drill-level").innerText = upgrades.drills.level.toString()
+  document.getElementById("cart-level").innerText = upgrades.carts.level.toString()
+  document.getElementById("rover-level").innerText = upgrades.rovers.level.toString()
+  document.getElementById("harvester-level").innerText = upgrades.harvesters.level.toString()
 }
 
 
-// NOTE 
+// NOTE UNLOCK RESOURCES
 // Unlock higher quality resources so player can mine them, remove money equal to unlock price.
 
 function unlockResource(resource){
@@ -122,8 +121,8 @@ function unlockResource(resource){
   drawCounters()
 }
 
-// NOTE
-// Purchase on-click and passive upgrades 
+// NOTE PURCHASE UPGRADES
+// Purchase upgrades to increase resource gain
 
 function purchaseUpgrade(upgrades) {
   if (money >= upgrades.price) {
