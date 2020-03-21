@@ -18,21 +18,21 @@ let resource = {
     count: 0,
     value: 5,
     unlocked: false,
-    unlockPrice: 100,
+    unlockPrice: 250,
   },
   moonIron: {
     name: 'Iron',
     count: 0,
-    value: 20,
+    value: 15,
     unlocked: false,
-    unlockPrice: 500,
+    unlockPrice: 1000,
   },
   moonGems: {
     name: 'Gems',
     count: 0,
-    value: 100,
+    value: 75,
     unlocked: false,
-    unlockPrice: 1500,
+    unlockPrice: 2500,
   }
 }
 
@@ -50,19 +50,19 @@ let upgrades = {
       name: "Carts",
       price: 250,
       level: 0,
-      modifier: 5
+      modifier: 3
     },
     rovers: {
       name: "Rovers",
       price: 500,
       level: 0,
-      modifier: 10
+      modifier: 5
     },
     harvesters: {
       name: "Harvesters",
       price: 1500,
       level: 0,
-      modifier: 20
+      modifier: 10
     }
 }
 
@@ -72,7 +72,7 @@ let upgrades = {
 function mine(resource){
   for (const key in upgrades) {
     var newCount = (upgrades[key].level * upgrades[key].modifier)
-      if (resource.unlocked == true){
+      if (resource.unlocked = true){
       resource.count += newCount
     }else {
       console.log('This resource has not been unlocked yet!')
@@ -80,6 +80,37 @@ function mine(resource){
   }
   drawCounters()
 }
+
+// NOTE AUTOMATE
+// Automate collection of resources
+
+function collectAutoUpgrades(){
+  for (const key in upgrades) {
+    var newCount = (upgrades[key].level * upgrades[key].modifier)
+      if (resource.moonDust.unlocked == true){
+      resource.moonDust.count += newCount
+      }
+      if (resource.moonRocks.unlocked == true){
+        resource.moonRocks.count += newCount
+      }
+      if (resource.moonIron.unlocked == true){
+      resource.moonIron.count += newCount
+      }
+      if (resource.moonGems.unlocked == true){
+      resource.moonGems.count += newCount
+      }
+    }
+    drawCounters()
+}
+
+function startInterval(resource){
+  const collectionInterval = setInterval(collectAutoUpgrades, 3000)
+}
+
+function automate(resource){
+  startInterval(resource)
+}
+
 
 // NOTE SELL RESOURCES
 // Enable user to sell their resources for money
@@ -99,12 +130,23 @@ function drawCounters(){
   document.getElementById("moon-iron-counter").innerText = resource.moonIron.count.toString()
   document.getElementById("moon-gems-counter").innerText = resource.moonGems.count.toString()
   document.getElementById("money-counter").innerText = money.toString()
+}
+function drawUnlockPrice(){  
+  document.getElementById("moon-rocks-cost").innerText = resource.moonRocks.unlockPrice.toString()
+  document.getElementById("moon-iron-cost").innerText = resource.moonIron.unlockPrice.toString()
+  document.getElementById("moon-gems-cost").innerText = resource.moonGems.unlockPrice.toString()
+}
+
+function drawLevelCounters(){
   document.getElementById("drill-level").innerText = upgrades.drills.level.toString()
   document.getElementById("cart-level").innerText = upgrades.carts.level.toString()
   document.getElementById("rover-level").innerText = upgrades.rovers.level.toString()
   document.getElementById("harvester-level").innerText = upgrades.harvesters.level.toString()
+  document.getElementById("drill-cost").innerText = upgrades.drills.price.toString()
+  document.getElementById("cart-cost").innerText = upgrades.carts.price.toString()
+  document.getElementById("rover-cost").innerText = upgrades.rovers.price.toString()
+  document.getElementById("harvester-cost").innerText = upgrades.harvesters.price.toString()
 }
-
 
 // NOTE UNLOCK RESOURCES
 // Unlock higher quality resources so player can mine them, remove money equal to unlock price.
@@ -131,12 +173,13 @@ function purchaseUpgrade(upgrades) {
     upgrades.price = (Math.floor(upgrades.price * 0.25)) + upgrades.price
     upgrades.level += 1
     console.log(`${upgrades.name} purchased. New price: ${upgrades.price}`)
-    drawCounters()
+    drawLevelCounters()
   }else
   {
     console.log("Not enough money.")
   }
 }
 
-
 drawCounters()
+drawLevelCounters()
+drawUnlockPrice()

@@ -1,0 +1,30 @@
+.card{
+  background-color: #d0cfcf;
+  border: 3px solid #6d666b;
+}
+.btn-success{
+  background-color: #bf2027;
+  border: 1px solid #731217;
+}
+.btn-success:hover{
+  background-color: #731217;
+  border: 1px solid #bf2027;
+}
+.card-messages{
+  background-color: black;
+  border: 2px solid #6d666b;
+  color: white;
+  font-family: '8BITWONDERNominal';
+  font-weight: normal;
+  font-style: normal;
+}
+.header-text{
+  color: #edc91a;
+  font-family: '8BITWONDERNominal';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 5rem;
+}
+.space-background{
+  background-image: url(https://jasonbecker.com/wp-content/uploads/2019/01/Space-Background.jpg);
+}
