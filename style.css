@@ -25,6 +25,9 @@
   font-style: normal;
   font-size: 5rem;
 }
+.per-second{
+  font-size: smaller;
+}
 .space-background{
   background-image: url(https://jasonbecker.com/wp-content/uploads/2019/01/Space-Background.jpg);
 }

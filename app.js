@@ -1,185 +1,209 @@
-// NOTE ESTABLISH GLOBAL VARIABLES 
-// Money, resources, and modifiers
+// NOTE Resources availble to collect
+let dustCount = 0
 
-let money = 0
+// NOTE Upgrades to increase amount of resources harvested
 
-// NOTE RESOURCES
-// All resources should have a name, count, value, unlocked boolean, and unlock price
-
-let resource = {
-  moonDust: {
-    name: 'Dust',
-    count: 0,
-    value: 1,
-    unlocked: true,
+let clickUpgrades = {
+  drills: {
+    name: "Drills",
+    price: 50,
+    level: 0,
+    modifier: 1
   },
-  moonRocks: {
-    name: 'Rocks',
-    count: 0,
-    value: 5,
-    unlocked: false,
-    unlockPrice: 250,
+  carts: {
+    name: "Carts",
+    price: 250,
+    level: 0,
+    modifier: 10
+  }
+}
+let passiveUpgrades = {
+  rovers: {
+    name: "Rovers",
+    price: 500,
+    level: 0,
+    modifier: 100
   },
-  moonIron: {
-    name: 'Iron',
-    count: 0,
-    value: 15,
-    unlocked: false,
-    unlockPrice: 1000,
-  },
-  moonGems: {
-    name: 'Gems',
-    count: 0,
-    value: 75,
-    unlocked: false,
-    unlockPrice: 2500,
+  harvesters: {
+    name: "Harvesters",
+    price: 2500,
+    level: 0,
+    modifier: 250
   }
 }
 
-// NOTE UPGRADE ITEMS - Increase amount of resources harvested per click
-// Price will increase with each subsequent upgrade
-
-let upgrades = {
-    drills: {
-      name: "Drills",
-      price: 50,
-      level: 1,
-      modifier: 1
-    },
-    carts: {
-      name: "Carts",
-      price: 250,
-      level: 0,
-      modifier: 3
-    },
-    rovers: {
-      name: "Rovers",
-      price: 500,
-      level: 0,
-      modifier: 5
-    },
-    harvesters: {
-      name: "Harvesters",
-      price: 1500,
-      level: 0,
-      modifier: 10
-    }
+// NOTE Badge system to award player for certain milestones
+let badges = {
+  noviceMiner: {
+    name: 'Novice Miner',
+    shoutout: 'You have earned $5,000',
+    moneyCheck: 5000,
+    earned: false,
+  },
+  journeymanMiner: {
+    name: 'Journeyman Miner',
+    shoutout: 'You have earned $15,000',
+    moneyCheck: 15000,
+    earned: false,
+  }
 }
+
+// NOTE Counter Elements for all resources
+
+let dustCountElem = document.getElementById('dust-count')
+
+
+// NOTE Level count element for all upgrades
+
+let drillsLevelElem = document.getElementById('drills-level')
+let cartsLevelElem = document.getElementById('carts-level')
+let roversLevelElem = document.getElementById('rovers-level')
+let harvestersLevelElem = document.getElementById('harvesters-level')
+
+// NOTE Level shortcut for all upgrades
+
+let drillsLevel = clickUpgrades.drills.level
+let cartsLevel = clickUpgrades.carts.level
+let roversLevel = passiveUpgrades.rovers.level
+let harvestersLevel = passiveUpgrades.harvesters.level
+
+
+// NOTE Prices for all upgrades/unlocks
+
+let drillsPrice = clickUpgrades.drills.price
+let cartsPrice = clickUpgrades.carts.price
+let roversPrice = passiveUpgrades.rovers.price
+let harvestersPrice = passiveUpgrades.harvesters.price
+
+// NOTE Price elements for all upgrades
+
+let drillsPriceElem = document.getElementById('drills-price')
+let cartsPriceElem = document.getElementById('carts-price')
+let roversPriceElem = document.getElementById('rovers-price')
+let harvestersPriceElem = document.getElementById('harvesters-price')
+
+// NOTE Modifiers for on-click upgrades
+
+let drillsMod = clickUpgrades.drills.modifier
+let cartsMod = clickUpgrades.carts.modifier
+let roversMod = passiveUpgrades.rovers.modifier
+let harvestersMod = passiveUpgrades.harvesters.modifier
+
+// NOTE Button shortcuts
+
+let saveBtn = document.getElementById("save-btn")
+let resetBtn = document.getElementById("reset-btn")
+
+// NOTE Mining bar progress shortcuts
+
+let dustProgBar = document.getElementById("dust-prog-bar")
+
+// NOTE Message center
+
+let messageBox = document.getElementById("message-center")
+
+// NOTE Badge shortcuts
+
+let noviceBadge = document.getElementById("novice-badge")
+let journeyBadge = document.getElementById("journey-badge")
+
 
 // NOTE HARVEST ON CLICK
 // Basic function enabling user to harvest a resource (Dust, Rocks, Iron, Gems)
 
-function mine(resource){
-  for (const key in upgrades) {
-    var newCount = (upgrades[key].level * upgrades[key].modifier)
-      if (resource.unlocked = true){
-      resource.count += newCount
-    }else {
-      console.log('This resource has not been unlocked yet!')
-    }
-  }
+function harvest(){
+  dustCount++
+  checkUpgrades()
   drawCounters()
 }
 
-// NOTE AUTOMATE
-// Automate collection of resources
+// NOTE UPGRADE CHECKS
+// Functions to check all upgrades currently owned by player
 
-function collectAutoUpgrades(){
-  for (const key in upgrades) {
-    var newCount = (upgrades[key].level * upgrades[key].modifier)
-      if (resource.moonDust.unlocked == true){
-      resource.moonDust.count += newCount
-      }
-      if (resource.moonRocks.unlocked == true){
-        resource.moonRocks.count += newCount
-      }
-      if (resource.moonIron.unlocked == true){
-      resource.moonIron.count += newCount
-      }
-      if (resource.moonGems.unlocked == true){
-      resource.moonGems.count += newCount
-      }
-    }
-    drawCounters()
+function checkUpgrades(){
+  drillsUpgrade()
+  cartsUpgrade()
 }
-
-function startInterval(resource){
-  const collectionInterval = setInterval(collectAutoUpgrades, 3000)
-}
-
-function automate(resource){
-  startInterval(resource)
-}
-
-
-// NOTE SELL RESOURCES
-// Enable user to sell their resources for money
-function sellResources(){
-  for (const key in resource) {
-    money += resource[key].count * resource[key].value
-    resource[key].count = 0
+function drillsUpgrade(){
+  if (drillsLevel > 0){
+    dustCount +=(drillsLevel * drillsMod)
   }
-  drawCounters()
+ }
+function cartsUpgrade(){
+  if (cartsLevel > 0){
+    dustCount +=(cartsLevel * cartsMod)
+  }
 }
 
-// NOTE DRAW COUNTS TO PAGE
-// Draw count totals to each counter on page (resources and cash)
+
+// NOTE DRAW COUNTERS
 function drawCounters(){
-  document.getElementById("moon-dust-counter").innerText = resource.moonDust.count.toString()
-  document.getElementById("moon-rocks-counter").innerText = resource.moonRocks.count.toString()
-  document.getElementById("moon-iron-counter").innerText = resource.moonIron.count.toString()
-  document.getElementById("moon-gems-counter").innerText = resource.moonGems.count.toString()
-  document.getElementById("money-counter").innerText = money.toString()
-}
-function drawUnlockPrice(){  
-  document.getElementById("moon-rocks-cost").innerText = resource.moonRocks.unlockPrice.toString()
-  document.getElementById("moon-iron-cost").innerText = resource.moonIron.unlockPrice.toString()
-  document.getElementById("moon-gems-cost").innerText = resource.moonGems.unlockPrice.toString()
-}
-
-function drawLevelCounters(){
-  document.getElementById("drill-level").innerText = upgrades.drills.level.toString()
-  document.getElementById("cart-level").innerText = upgrades.carts.level.toString()
-  document.getElementById("rover-level").innerText = upgrades.rovers.level.toString()
-  document.getElementById("harvester-level").innerText = upgrades.harvesters.level.toString()
-  document.getElementById("drill-cost").innerText = upgrades.drills.price.toString()
-  document.getElementById("cart-cost").innerText = upgrades.carts.price.toString()
-  document.getElementById("rover-cost").innerText = upgrades.rovers.price.toString()
-  document.getElementById("harvester-cost").innerText = upgrades.harvesters.price.toString()
-}
-
-// NOTE UNLOCK RESOURCES
-// Unlock higher quality resources so player can mine them, remove money equal to unlock price.
-
-function unlockResource(resource){
-  if (resource.unlocked == true){
-    console.log("Already purchased!")
-  }else 
-  if (money >= resource.unlockPrice){
-    resource.unlocked = true
-    money -= resource.unlockPrice
-    console.log(`${resource.name} Unlocked!`)
-  }
-  drawCounters()
+  dustCountElem.innerText = dustCount.toString()
+  drillsLevelElem.innerText = drillsLevel.toString()
+  drillsPriceElem.innerText = drillsPrice.toString()
+  cartsLevelElem.innerText = cartsLevel.toString()
+  cartsPriceElem.innerText = cartsPrice.toString()
+  roversLevelElem.innerText = roversLevel.toString()
+  roversPriceElem.innerText = roversPrice.toString ()
+  harvestersLevelElem.innerText = harvestersLevel.toString()
+  harvestersPriceElem.innerText = harvestersPrice.toString()
 }
 
 // NOTE PURCHASE UPGRADES
-// Purchase upgrades to increase resource gain
 
-function purchaseUpgrade(upgrades) {
-  if (money >= upgrades.price) {
-    upgrades.count += 1
-    money -= upgrades.price
-    upgrades.price = (Math.floor(upgrades.price * 0.25)) + upgrades.price
-    upgrades.level += 1
-    console.log(`${upgrades.name} purchased. New price: ${upgrades.price}`)
-    drawLevelCounters()
-  }else
-  {
-    console.log("Not enough money.")
+function purchaseDrill(){
+  if (dustCount >= drillsPrice){
+    drillsLevel++
+    dustCount = dustCount - drillsPrice
+    drillsPrice = (Math.round(drillsPrice * (drillsMod / 100))) + drillsPrice
+    drawCounters()
+  }else{
+    console.log('Not enough money!')
   }
 }
+function purchaseCart(){
+  if (dustCount >= cartsPrice){
+    cartsLevel++
+    dustCount = dustCount - cartsPrice
+    cartsPrice = (Math.round(cartsPrice * (cartsMod / 100))) + cartsPrice
+    drawCounters()
+  }else{
+    console.log('Not enough money!')
+  }
+}
+function purchaseRover(){
+  if (dustCount >= roversPrice){
+    roversLevel++
+    dustCount = dustCount - roversPrice
+    roversPrice = (Math.round(roversPrice * (roversMod / 100))) + roversPrice
+    drawCounters()
+  }else{
+    console.log('Not enough money!')
+  }
+}
+setInterval(function roverEngage(){
+  if (roversLevel > 0){
+    dustCount += (roversLevel * roversMod)
+    drawCounters()
+   }
+  }, 3000)
+
+
+function purchaseHarvester(){
+  if (dustCount >= harvestersPrice){
+    harvestersLevel++
+    dustCount = dustCount - harvestersPrice
+    harvestersPrice = (Math.round(harvestersPrice * (harvestersMod / 100))) + harvestersPrice
+    drawCounters()
+  }else{
+    console.log('Not enough money!')
+  }
+}
+setInterval(function harvesterEngage(){
+  if (harvestersLevel > 0){
+    dustCount += (harvestersLevel * harvestersMod)
+    drawCounters()
+  }
+}, 3000)
 
 drawCounters()
-drawLevelCounters()
-drawUnlockPrice()

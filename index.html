@@ -22,32 +22,24 @@
       <div class="row">
         <div class="col-xl-4">
           <div class="card text-center mt-5">
-            <div class="card-header">Unlock New Resources</div>
-            <div class="card-body">
-              <button onclick="unlockResource(resource.moonRocks)" class="btn btn-success m-1">Unlock Lunar Quarry, cost: $<span id="moon-rocks-cost"></span></button>
-              <button onclick="unlockResource(resource.moonIron)" class="btn btn-success m-1">Unlock Lunar Iron Mine, cost: $<span id="moon-iron-cost"></span></button>
-              <button onclick="unlockResource(resource.moonGems)" class="btn btn-success m-1">Unlock Lunar Gem Mine, cost: $<span id="moon-gems-cost"></span></button>
-            </div>
-          </div>
-          <div class="card text-center mt-5">
             <div class="card-header">Purchase Upgrades</div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-6">
-                    <button onclick="purchaseUpgrade(upgrades.drills)" class="btn btn-success">Upgrade Drills</button>
-                    <p class="mb-0">Drill Level: <span id="drill-level"></span></p>
-                    <p class="mt-0">Drill Cost: <span id="drill-cost"></span></p>
-                    <button onclick="purchaseUpgrade(upgrades.rovers)" class="btn btn-success">Upgrade Rovers</button>
-                    <p class="mb-0">Rover Level: <span id="rover-level"></span></p>
-                    <p class="mt-0">Rover Cost: <span id="rover-cost"></span></p>
+                    <button onclick="purchaseDrill()" class="btn btn-success">Upgrade Drills</button>
+                    <p class="mb-0">Drill Level: <span id="drills-level"></span></p>
+                    <p class="mt-0">Drill Cost: <span id="drills-price"></span></p>
+                    <button onclick="purchaseRover()" class="btn btn-success">Upgrade Rovers</button>
+                    <p class="mb-0">Rover Level: <span id="rovers-level"></span></p>
+                    <p class="mt-0">Rover Cost: <span id="rovers-price"></span></p>
                   </div>
                   <div class="col-6">
-                    <button onclick="purchaseUpgrade(upgrades.carts)" class="btn btn-success">Upgrade Mine Carts</button>
-                    <p class="mb-0">Cart Level: <span id="cart-level"></span></p>
-                    <p class="mt-0">Cart Cost: <span id="cart-cost"></span></p>
-                    <button onclick="purchaseUpgrade(upgrades.harvesters)" class="btn btn-success">Upgrade Harvesters</button>
-                    <p class="mb-0">Harvester Level: <span id="harvester-level"></span></p>
-                    <p class="mt-0">Harvester Cost: <span id="harvester-cost"></span></p>
+                    <button onclick="purchaseCart()" class="btn btn-success">Upgrade Mine Carts</button>
+                    <p class="mb-0">Cart Level: <span id="carts-level"></span></p>
+                    <p class="mt-0">Cart Cost: <span id="carts-price"></span></p>
+                    <button onclick="purchaseHarvester()" class="btn btn-success">Upgrade Harvesters</button>
+                    <p class="mb-0">Harvester Level: <span id="harvesters-level"></span></p>
+                    <p class="mt-0">Harvester Cost: <span id="harvesters-price"></span></p>
                   </div>
                 </div>
             </div>
@@ -55,53 +47,21 @@
         </div><!-- Upgrades -->
 
         <div class="col-xl-4 text-center"> 
-          <img src="moon-png.png" alt="">
-          <div class="card card-messages text-center mt-3">
-            <div class="card-header">Message Center</div>
-            <div class="card-body">Check here for messages!</div>
-          </div>
+          <img onclick="harvest()" src="moon-png.png" alt="">
+
         </div><!-- Moon -->
 
         <div class="col-xl-4">
           <div class="card text-center mt-5">
             <div class="card-header">Current Resources</div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-6">
-                  <h5>Moon Dust: <span id="moon-dust-counter"></span></h5>
-                  <h5>Moon Rocks: <span id="moon-rocks-counter"></span></h5>
-                </div>
-                <div class="col-6">
-                  <h5>Moon Iron: <span id="moon-iron-counter"></span></h5>
-                  <h5>Moon Gems: <span id="moon-gems-counter"></span></h5>
-                </div>
+              <div class="card-body">
+                <h5>Moon Dust: <span id="dust-count"></span></h5>
+                <p class="per-second">Auto Harvest Rate: <span id="moon-dust-auto"></span></p>
               </div>
-              <h5>Money: <span id="money-counter"></span></h5>
-              <button onclick="sellResources()" class="btn btn-success">Sell Resources</button>
-            </div>
-          </div><!-- Resources Available/Per Second-->
-          <div class="card text-center mt-5">
-            <div class="card-header">Harvest Resources</div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-6">
-                  <p>Moon Dust - Surface Collection</p>
-                  <button onclick="mine(resource.moonDust)" class="btn btn-sm btn-primary">Harvest</button>
-                  <button onclick="automate(resource.moonDust)" class="btn btn-sm btn-primary">Automate</button>
-                  <p class="mt-5">Moon Iron - Subsurface Mine</p>
-                  <button onclick="mine(resource.moonIron)" class="btn btn-sm btn-warning">Harvest</button>
-                  <button onclick="automate(resource.moonIron)" class="btn btn-sm btn-warning">Automate</button>
-                </div>
-                <div class="col-6">
-                  <p>Moon Rocks - Surface Quarry</p>
-                  <button onclick="mine(resource.moonRocks)" class="btn btn-sm btn-secondary">Harvest</button>
-                  <button onclick="automate(resource.moonRocks)" class="btn btn-sm btn-secondary">Automate</button>
-                  <p class="mt-5">Moon Gems - Subsurface Mine</p>
-                  <button onclick="mine(resource.moonGems)" class="btn btn-sm btn-danger">Harvest</button>
-                  <button onclick="automate(resource.moonGems)" class="btn btn-sm btn-danger">Automate</button>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div class="card card-messages text-center mt-3">
+            <div class="card-header">Message Center</div>
+            <div class="card-body">Check here for messages!</div>
           </div>
         </div>
         
