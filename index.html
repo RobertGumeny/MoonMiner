@@ -15,31 +15,31 @@
   <body class="space-background">
     <header class="container-fluid">
       <div class="row">
-        <div class="col-12 text-center"><h1 class="header-text">MOON MINER</h1></div>
+        <div class="col-12 text-center"><h1 class="main-header-text">MOON MINER</h1></div>
       </div>
     </header>
     <main class="container-fluid">
       <div class="row">
         <div class="col-xl-4">
           <div class="card text-center mt-5">
-            <div class="card-header">Purchase Upgrades</div>
+            <div class="card-header header-text">Purchase Upgrades</div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-6">
-                    <button onclick="purchaseDrill()" class="btn btn-success">Upgrade Drills</button>
-                    <p class="mb-0">Drill Level: <span id="drills-level"></span></p>
-                    <p class="mt-0">Drill Cost: <span id="drills-price"></span></p>
-                    <button onclick="purchaseRover()" class="btn btn-success">Upgrade Rovers</button>
-                    <p class="mb-0">Rover Level: <span id="rovers-level"></span></p>
-                    <p class="mt-0">Rover Cost: <span id="rovers-price"></span></p>
+                    <button onclick="purchaseDrill()" class="btn btn-danger">Upgrade Drills</button>
+                    <p class="mb-0 small-text">Drill Level: <span id="drills-level"></span></p>
+                    <p class="mt-0 small-text">Drill Cost: <span id="drills-price"></span></p>
+                    <button onclick="purchaseRover()" class="btn btn-danger">Upgrade Rovers</button>
+                    <p class="mb-0 small-text">Rover Level: <span id="rovers-level"></span></p>
+                    <p class="mt-0 small-text">Rover Cost: <span id="rovers-price"></span></p>
                   </div>
                   <div class="col-6">
-                    <button onclick="purchaseCart()" class="btn btn-success">Upgrade Mine Carts</button>
-                    <p class="mb-0">Cart Level: <span id="carts-level"></span></p>
-                    <p class="mt-0">Cart Cost: <span id="carts-price"></span></p>
-                    <button onclick="purchaseHarvester()" class="btn btn-success">Upgrade Harvesters</button>
-                    <p class="mb-0">Harvester Level: <span id="harvesters-level"></span></p>
-                    <p class="mt-0">Harvester Cost: <span id="harvesters-price"></span></p>
+                    <button onclick="purchaseCart()" class="btn btn-danger">Upgrade Mine Carts</button>
+                    <p class="mb-0 small-text">Cart Level: <span id="carts-level"></span></p>
+                    <p class="mt-0 small-text">Cart Cost: <span id="carts-price"></span></p>
+                    <button onclick="purchaseHarvester()" class="btn btn-danger">Upgrade Harvesters</button>
+                    <p class="mb-0 small-text">Harvester Level: <span id="harvesters-level"></span></p>
+                    <p class="mt-0 small-text">Harvester Cost: <span id="harvesters-price"></span></p>
                   </div>
                 </div>
             </div>
@@ -53,18 +53,21 @@
 
         <div class="col-xl-4">
           <div class="card text-center mt-5">
-            <div class="card-header">Current Resources</div>
+            <div class="card-header header-text">Current Resources</div>
               <div class="card-body">
                 <h5>Moon Dust: <span id="dust-count"></span></h5>
-                <p class="per-second">Auto Harvest Rate: <span id="moon-dust-auto"></span></p>
+                <p class="small-text mt-3">Dust Per Click: <span id="dust-per-click"></span></p>
+                <p class="small-text">Dust Per Second: <span id="dust-per-second"></span></p>
               </div>
           </div>
           <div class="card card-messages text-center mt-3">
-            <div class="card-header">Message Center</div>
-            <div class="card-body">Check here for messages!</div>
+            <p>Message Center</p>
+            <p class="mt-3" id="message-center">Check here for messages!</p>
+            <div class="d-flex justify-content-end">
+              <button onclick="clearMessage()" class="clear-messages mr-3 mb-3" id="clear-msg">Clear</button>
+            </div>
           </div>
         </div>
-        
       </div>
     </main>
       

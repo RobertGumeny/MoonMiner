@@ -1,5 +1,7 @@
 // NOTE Resources availble to collect
 let dustCount = 0
+let dustPerClick = 1
+let dustPerSecond = 0
 
 // NOTE Upgrades to increase amount of resources harvested
 
@@ -51,6 +53,9 @@ let badges = {
 // NOTE Counter Elements for all resources
 
 let dustCountElem = document.getElementById('dust-count')
+let dustPerClickElem = document.getElementById('dust-per-click')
+let dustPerSecondElem = document.getElementById('dust-per-second')
+
 
 
 // NOTE Level count element for all upgrades
@@ -82,7 +87,7 @@ let cartsPriceElem = document.getElementById('carts-price')
 let roversPriceElem = document.getElementById('rovers-price')
 let harvestersPriceElem = document.getElementById('harvesters-price')
 
-// NOTE Modifiers for on-click upgrades
+// NOTE Modifier shortcuts for on-click upgrades
 
 let drillsMod = clickUpgrades.drills.modifier
 let cartsMod = clickUpgrades.carts.modifier
@@ -100,7 +105,7 @@ let dustProgBar = document.getElementById("dust-prog-bar")
 
 // NOTE Message center
 
-let messageBox = document.getElementById("message-center")
+let messageCenterElem = document.getElementById("message-center")
 
 // NOTE Badge shortcuts
 
@@ -139,6 +144,8 @@ function cartsUpgrade(){
 // NOTE DRAW COUNTERS
 function drawCounters(){
   dustCountElem.innerText = dustCount.toString()
+  dustPerSecondElem.innerText = dustPerSecond.toString()
+  dustPerClickElem.innerText = dustPerClick.toString()
   drillsLevelElem.innerText = drillsLevel.toString()
   drillsPriceElem.innerText = drillsPrice.toString()
   cartsLevelElem.innerText = cartsLevel.toString()
@@ -156,9 +163,11 @@ function purchaseDrill(){
     drillsLevel++
     dustCount = dustCount - drillsPrice
     drillsPrice = (Math.round(drillsPrice * (drillsMod / 100))) + drillsPrice
+    pushMessage(`Drill Upgrade Purchased`)
+    dpcUpdate()
     drawCounters()
   }else{
-    console.log('Not enough money!')
+    pushMessage(`Not enough money`)
   }
 }
 function purchaseCart(){
@@ -166,19 +175,23 @@ function purchaseCart(){
     cartsLevel++
     dustCount = dustCount - cartsPrice
     cartsPrice = (Math.round(cartsPrice * (cartsMod / 100))) + cartsPrice
+    pushMessage(`Carts upgrade purchased`)
+    dpcUpdate()
     drawCounters()
   }else{
-    console.log('Not enough money!')
+    pushMessage(`Not enough money`)
   }
 }
 function purchaseRover(){
   if (dustCount >= roversPrice){
     roversLevel++
     dustCount = dustCount - roversPrice
-    roversPrice = (Math.round(roversPrice * (roversMod / 100))) + roversPrice
+    roversPrice = (Math.round(roversPrice * (roversMod / 200))) + roversPrice
+    pushMessage(`Rovers ugprade purchased`)
+    dpsUpdate()
     drawCounters()
   }else{
-    console.log('Not enough money!')
+    pushMessage(`Not enough money`)
   }
 }
 setInterval(function roverEngage(){
@@ -193,10 +206,12 @@ function purchaseHarvester(){
   if (dustCount >= harvestersPrice){
     harvestersLevel++
     dustCount = dustCount - harvestersPrice
-    harvestersPrice = (Math.round(harvestersPrice * (harvestersMod / 100))) + harvestersPrice
+    harvestersPrice = (Math.round(harvestersPrice * (harvestersMod / 400))) + harvestersPrice
+    pushMessage(`Harvesters upgrade purchased`)
+    dpsUpdate()
     drawCounters()
   }else{
-    console.log('Not enough money!')
+    pushMessage(`Not enough money`)
   }
 }
 setInterval(function harvesterEngage(){
@@ -205,5 +220,31 @@ setInterval(function harvesterEngage(){
     drawCounters()
   }
 }, 3000)
+
+// NOTE PUSH MESSAGES TO MESSAGE CENTER
+// Function to push a message to message center and then timeout.
+
+function pushMessage(message){
+  messageCenterElem.innerText = message.toString()
+}
+
+// Clear messages
+
+function clearMessage(){
+  messageCenterElem.innerText = ""
+}
+
+// NOTE DISPLAY DUST PER SECOND/DUST PER CLICK
+// Check and update passive dust collection when new automatic upgrade is purchased
+
+function dpsUpdate(){
+  let dpsCombo = (roversMod * roversLevel) + (harvestersMod * harvestersLevel)
+  dustPerSecond = Math.floor(dpsCombo / 3)
+}
+
+function dpcUpdate(){
+  let dpcCombo = (drillsMod * drillsLevel) + (cartsMod * cartsLevel)
+  dustPerClick = dpcCombo + 1
+}
 
 drawCounters()

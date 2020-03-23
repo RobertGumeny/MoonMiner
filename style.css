@@ -2,11 +2,11 @@
   background-color: #d0cfcf;
   border: 3px solid #6d666b;
 }
-.btn-success{
+.btn-danger{
   background-color: #bf2027;
   border: 1px solid #731217;
 }
-.btn-success:hover{
+.btn-danger:hover{
   background-color: #731217;
   border: 1px solid #bf2027;
 }
@@ -18,14 +18,22 @@
   font-weight: normal;
   font-style: normal;
 }
-.header-text{
+.main-header-text{
   color: #edc91a;
   font-family: '8BITWONDERNominal';
   font-weight: normal;
   font-style: normal;
   font-size: 5rem;
 }
-.per-second{
+.header-text{
+  font-family: '8BITWONDERNominal';
+  font-weight: normal;
+  font-style: normal;
+}
+.clear-messages{
+  font-size: x-small;
+}
+.small-text{
   font-size: smaller;
 }
 .space-background{
