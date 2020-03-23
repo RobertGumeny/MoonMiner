@@ -99,10 +99,6 @@ let harvestersMod = passiveUpgrades.harvesters.modifier
 let saveBtn = document.getElementById("save-btn")
 let resetBtn = document.getElementById("reset-btn")
 
-// NOTE Mining bar progress shortcuts
-
-let dustProgBar = document.getElementById("dust-prog-bar")
-
 // NOTE Message center
 
 let messageCenterElem = document.getElementById("message-center")
@@ -245,6 +241,14 @@ function dpsUpdate(){
 function dpcUpdate(){
   let dpcCombo = (drillsMod * drillsLevel) + (cartsMod * cartsLevel)
   dustPerClick = dpcCombo + 1
+}
+
+// NOTE DEBUG CONSOLE
+// Add dust for testing purposes
+
+function addDust(){
+  dustCount = dustCount + 2500
+  drawCounters()
 }
 
 drawCounters()
